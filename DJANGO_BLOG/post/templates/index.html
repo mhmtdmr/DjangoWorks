@@ -1,0 +1,55 @@
+{% extends 'base.html'%}
+
+{% block title %}
+    Blog Anasayfa
+{% endblock %}
+
+{% block posts %}
+
+<section class="p-3 row">
+    {% if blogs %}
+        {% for blog in blogs %}
+            <section class="col-3 bg-light p-2 m-2">
+                <div class="card">
+                    <img class="card-img-top" src="{{ blog.BlogImage_thumbnail_220_160.url  }}" alt="{{ blog.Title }}">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ blog.Title }}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">{{ blog.Author.FullName }}</li>
+                      <li class="list-group-item">{{ blog.PublishDate }}</li>
+                      <li class="list-group-item">{{ blog.PostCategory.Name}}</li>
+                      <li class="list-group-item" style="font-size:12px">
+                          {% if blog.Tags %}
+                            {% for tag in blog.Tags.all %}
+                            <span class="bg-primary p-1 m-1" style="border:1px solid tomato; border-radius: 3px;">{{ tag.Name }}</span>
+                            {% endfor %}
+                          {% endif %}
+                      </li>
+                    </ul>
+                    <div class="card-body">
+                      <a href="post/details/{{ blog.ID }}/" class="card-link">Read</a>
+                    </div>
+                  </div>
+            </section>
+        {% endfor %}
+    {% endif %}
+</section>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

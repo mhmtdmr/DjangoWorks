@@ -44,6 +44,13 @@ def details(request,oid):
     print(oid)
     return render(request,"details.html",{"v":postObject})
 
-    # TODO: Auth.
+    # TODO: Auth. https://docs.djangoproject.com/en/4.0/topics/auth/default/#user-objects
     # TODO: Edit.
     # TODO: Delete Modal Bootstrap
+
+    # u:p => demir
+from django.contrib.auth.decorators import login_required
+
+# @login_required(login_url='/accounts/login/')
+# def my_view(request):
+#     ...

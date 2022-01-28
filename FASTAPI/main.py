@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 from fastapi import FastAPI,Depends
-from models import Gender, User, Role
+from .models import Gender, User, Role
 from typing import List
 
 

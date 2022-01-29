@@ -15,14 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from post.views import index,base,details
+from post.views import index,base,details,loginTest
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/',include('post.post_urls')),
     path('',index),
-    path('base/',base)
+    path('base/',base),
+    path('accounts/login/', auth_views.LoginView.as_view()),
+    path('loginTest',loginTest),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

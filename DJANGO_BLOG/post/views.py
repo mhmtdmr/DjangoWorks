@@ -4,6 +4,9 @@ from django.shortcuts import render
 from .forms import AuthorForm,PostForm
 from .models import *
 
+from django.contrib.auth import logout,authenticate, login
+
+
 # Create your views here.
 
 def index(request):
@@ -51,6 +54,79 @@ def details(request,oid):
     # u:p => demir
 from django.contrib.auth.decorators import login_required
 
+@login_required()
+def loginTest(request):
+    return HttpResponse("LOGIN IS OK")
+
 # @login_required(login_url='/accounts/login/')
 # def my_view(request):
 #     ...
+
+
+def login(request):
+    loginForm = AuthorForm(request.POST or None)
+    my_context = {"authorForm":af,"postForm":pf}
+
+    if(request.method == 'POST'):
+        # authorForm = AuthorForm(request.POST)
+        # if (authorForm.is_valid()):
+        #     authorForm.save()
+        
+        postForm = PostForm(request.POST)
+        if (postForm.is_valid()):
+            postForm.save()
+            print(postForm.BlogImage)
+        
+    return render(request,"add.html",context=my_context)
+
+
+
+
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        # Redirect to a success page.
+        ...
+    else:
+        # Return an 'invalid login' error message.
+        ...
+
+
+# If the user isn’t logged in, redirect to settings.LOGIN_URL, passing the current absolute path in the query string. Example: /accounts/login/?next=/polls/3/.
+
+
+# if request.user.is_authenticated:
+#     # Do something for authenticated users.
+#     ...
+# else:
+#     # Do something for anonymous users.
+#     ...
+
+
+from django.contrib.auth import logout,authenticate, login
+
+# def logout_view(request):
+#     logout(request)
+#     # Redirect to a success page.
+
+# def my_view(request):
+#     username = request.POST['username']
+#     password = request.POST['password']
+#     user = authenticate(request, username=username, password=password)
+#     if user is not None:
+#         login(request, user)
+#         # Redirect to a success page.
+#         ...
+#     else:
+#         # Return an 'invalid login' error message.
+#         ...
+
+
+# from django.shortcuts import render
+
+# def my_view(request):
+#     if not request.user.is_authenticated:
+#         return render(request, 'myapp/login_error.html')
+#     # ...

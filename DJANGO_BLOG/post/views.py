@@ -1,6 +1,6 @@
 from msilib.schema import Media
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render,redirect
 from .forms import AuthorForm,PostForm
 from .models import *
 
@@ -36,8 +36,31 @@ def add(request):
 def remove(request):
     return HttpResponse('Hello from post remove')
 
-def edit(request):
-    return HttpResponse('Hello from post edit')
+
+
+
+
+
+def edit(request,pid):
+    post = get_object_or_404(Post,pk=pid)
+    if(request.method == "POST"):
+        form = PostForm(request.POST,instance=Post)
+        if(form.is_valid()):
+            post = form.save(commit=False)
+            return redirect('details', pk=post.pk)
+    else:
+        form = PostForm(instance=Post)
+    return render(request,'edit.html',{'form': form})
+
+
+
+
+
+
+
+
+
+    
 
 def base(request):
     return render(request,'base.html')
@@ -45,7 +68,7 @@ def base(request):
 def details(request,oid):
     postObject = Post.objects.get(pk=oid)
     print(oid)
-    return render(request,"details.html",{"v":postObject})
+    return render(request,"details.html",{"post":postObject})
 
     # TODO: Auth. https://docs.djangoproject.com/en/4.0/topics/auth/default/#user-objects
     # TODO: Edit.
@@ -130,3 +153,8 @@ from django.contrib.auth import logout,authenticate, login
 #     if not request.user.is_authenticated:
 #         return render(request, 'myapp/login_error.html')
 #     # ...
+
+
+# {% if user.is_authenticated %}
+#      <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+# {% endif %}

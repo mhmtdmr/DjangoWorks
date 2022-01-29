@@ -1,3 +1,17 @@
 <h1>{{ post.ID }}</h1>
 <h1>{{ post.Title }}</h1>
 <h5>ASDASD</h5>
+
+
+{% block content %}
+    <div class="post">
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'post-edit' pid=post.ID %}">Edit</a>
+        <h1>{{ post.Title }}</h1>
+        <p>{{ post.Body }}</p>
+    </div>
+{% endblock %}
